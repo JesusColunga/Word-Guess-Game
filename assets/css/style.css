@@ -1,0 +1,60 @@
+/* style.css                   */
+/* \Word-Guess-Game\assets\css */ 
+/* 2/Mar/2019                  */
+
+h1 {
+    font-family:        'Pacifico', cursive;
+    text-align:         center;
+    background-image:   url("../images/pipes.png");
+    padding-bottom:     1%;
+}
+
+footer {
+    padding :           0 3% 1% 3%;
+    background-image:   url("../images/pipes.png");
+}
+
+body {
+    background-image:   url("../images/morocco.png");
+}
+
+
+/* - - - -  id  - - - - - */
+#infoContainer {
+    background-image:   url("../images/morocco.png");
+    margin:             0;
+    padding:            0 5% 0 5%;
+    align-content:      center;
+}
+
+/* - - - -  class  - - - - - */
+/*.pie {*/
+.imagenEncabezado {
+    width:              100%;
+    height:             auto;
+}
+
+.JustificadoDerecha {
+    text-align:         right;
+    margin-right:       3%;
+}
+
+
+/* - - -  Media Queries  - - - */
+@media only screen and (max-width: 980px) { 
+    h1 {
+        font-size:      40px;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    h1 {
+        font-size:      30px;
+    }
+}
+
+@media only screen and (max-width: 640px) {
+    h1 {
+        font-size:      20px;
+    }
+}
