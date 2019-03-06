@@ -1,6 +1,6 @@
 <!-- index.html      -->
 <!-- Word Guess Game -->
-<!-- 2/Mar/2019      -->
+<!-- 6/Mar/2019      -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -44,7 +44,10 @@
                     <div class="card-body">
                         <h5 class="card-title"> Guess the word: </h5>
                         <h6 class="card-subtitle mb-2 text-muted">(Hint: about Astronomy )</h6>
-                        <p class="card-text"> _ _ _ </p>
+                        <p class="card-text">
+                            <p id="guessingWord">  </p>
+
+                        </p>
                     </div>
                 </div>
             </div>
@@ -53,10 +56,26 @@
                 <div class="card">
                    <div class="card-header text-center">
                         Score
-                    </div>                
+                    </div>         
+
                     <div class="card-body">
-                        <p class="card-text"> Wins: </p>
-                        <p class="card-text"> Guesses Remaining: </p>
+                        <div class="row">
+                            <div class="col-5">
+                                <p class="card-text"> Wins: </p>
+                            </div>
+                            <div class="col-7">
+                                <p id="wins">  </p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-5">
+                                <p class="card-text"> Guesses Remaining: </p>
+                            </div>
+                            <div class="col-7">
+                                <p id="remaining">  </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -69,10 +88,12 @@
             <div class="col-sm-10">
                 <div class="card">
                     <div class="card-header text-center">
-                        Letters Already Guessed:
+                        Letters already Guessed:
                     </div>
                     <div class="card-body">
-                        <p class="card-text"> _ _ _ </p>
+                        <p class="card-text"> 
+							<p id="lettersTyped"> </p>
+						</p>
                     </div>
                 </div>
             </div>
