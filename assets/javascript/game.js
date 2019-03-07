@@ -5,6 +5,11 @@
 // VARIABLES
 // =======================================================================================
 //var varLettersTyped = document.getElementById ("lettersTyped"); 
+var winSoundVar      = new Audio('assets/sounds/Metroid_Door-Brandino480-995195341.mp3');
+var loseSoundVar     = new Audio('assets/sounds/foghorn-daniel_simon.mp3');
+var repeatedSoundVar = new Audio('assets/sounds/qubodup-cfork-ccby3-jump.ogg');
+var lettersArr       = processFillLettersArr ();
+var tecla            = "";
 
 var game = {
     arrWords         : ["EARTH", "GALAXY", "CELESTIAL", "MOON", "STAR", "EQUATOR", "SPACE", "PLANET", "COSMOS", "ASTEROID", "AXIAL", "ASTRONOMY", "ASTRONAUT", "COMET", "EQUINOX", "ECLIPSE", "GEOSTATIONARY", "GRAVITATION", "HYPERNOVA", "METEORITE", "NEBULA", "ORBIT", "SATELLITE", "SOLAR", "UNIVERSE", "WAVELENGTH"],
@@ -15,7 +20,8 @@ var game = {
     lettersGuessed   : [],
     guessingWord     : "",     // Shows number of letters the word to be guessed has and correct letters guessed and their position 
     start            : true,
-
+    
+    
     reset: function () {
         this.selectedWord     = "";
         this.arrTypedLetters  = [];
@@ -83,40 +89,79 @@ var game = {
 
     decreaseRemaining: function () {
         this.guessesRemaining--;
-    }
+    },
 
+    winSoundPlay: function () {
+        winSoundVar.play ();
+    },
+
+    loseSoundPlay: function () {
+        loseSoundVar.play ();
+    },
+
+    repeatedSoundPlay: function () {
+        repeatedSoundVar.play ();
+    },
+
+    checkNotRepeatedLetter: function (tecla) {
+        if (this.arrTypedLetters.indexOf (tecla) == -1) {
+            return true;
+        } else {
+            this.repeatedSoundPlay ();
+            return false;
+        }
+    }
+    
 }
 
 
 // FUNCTIONS
 // ========================================================================================
+function processFillLettersArr () {
+    var arr = [];
+    for (ct=65; ct < 91; ct++) {
+        arr.push (String.fromCharCode(ct));
+    }
+    return arr;
+}
+
 function random_item(items) {
     return items[Math.floor(Math.random()*items.length)];
 }
 
+function processStart () {
+    game.reset ();
+    game.started ();
+    game.selectWord ();
+    game.initGuessingWord ();
+    game.showGuessingWord ();
+}
 
-// FUNCTION CALLS (Execution)
-// =======================================================================================
-/*  ESTO NO FUNCIONÓ:
-    var VarTeclaUsuario = document.getElementById ("lettersTyped");
-    document.onkeyup = function(event) {
-      // Determines which key was pressed.
-      var userGuess = event.key;
-      VarTeclaUsuario.textContent = "User guess: " + userGuess;
-	  }
-*/
+function processWin () {
+    game.winSoundPlay ();
+    game.win ();
+    game.showWins ();
+    alert ("You WIN ! ! !");
+    game.reset ();
+    game.selectWord ();
+    game.initGuessingWord ();
+    game.showGuessingWord ();
+    game.showTypedLetters ();
+    game.showRemaining ();
+}
 
-document.onkeyup = function(event) {
-    tecla = event.key.toUpperCase();
-    if (game.start) {
-        game.reset ();
-        game.started ();
-        game.selectWord ();
-        game.initGuessingWord ();
-        game.showGuessingWord ();
-    }
-	
-    console.log (game);
+function processLose () {
+    game.loseSoundPlay ();
+    alert ("You lose !");
+    game.reset ();
+    game.selectWord ();
+    game.initGuessingWord ();
+    game.showGuessingWord ();
+    game.showTypedLetters ();
+    game.showRemaining ();
+}
+
+function processKey (tecla) {
 	game.addTypedLetter (tecla);
     game.showTypedLetters ();  
     game.lookForTypedLetter (tecla);
@@ -124,40 +169,31 @@ document.onkeyup = function(event) {
     game.decreaseRemaining ();
     game.showRemaining ();
     if (game.checkWins ()) {
-        game.win ();
-        game.showWins ();
-        alert ("You WIN ! ! !");
-        game.reset ();
-        game.selectWord ();
-        game.initGuessingWord ();
-        game.showGuessingWord ();
-        game.showTypedLetters ();
-        game.showRemaining ();
+        processWin ();
     } else {
         if (game.guessesRemaining < 1) {
-            alert ("You lose !");
-            game.reset ();
-            game.selectWord ();
-            game.initGuessingWord ();
-            game.showGuessingWord ();
-            game.showTypedLetters ();
-            game.showRemaining ();
+            processLose ();
         }
     }
+}
 
-    // buscar si la letra tecleada se encuentra en la palabra seleccionada
+// FUNCTION CALLS (Execution)
+// =======================================================================================
 
-    // dibujar la posicion donde va la letra tecleada, respetando las anteriores
+document.onkeyup = function(event) {
 
+    tecla = event.key.toUpperCase();             // Words in array are uppercase
+
+    if (lettersArr.indexOf(tecla) >= 0) {        // Check the typed key is a letter
+        
+        if (game.start) {
+            processStart ()                      // Just the first time to start the game
+        }
+
+        console.log (game);
+
+        if (game.checkNotRepeatedLetter (tecla)) {
+            processKey (tecla);                  // Procedure to process the typed letter
+        }
+    }
  }
-
-/* ==============================================================================
-
-        alert ("Selected Word=" + this.selectedWord + 
-               " (" + this.selectedWord.length + ") " +
-               " / Guessing word=" + this.guessingWord +
-               " (" + this.guessingWord.length + 
-               ") / New Guessing Word=" + newGuessingWord +
-               " (" + newGuessingWord.length + ")"
-               );
-*/
